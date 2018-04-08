@@ -20,11 +20,12 @@ void setup() {
   Wire.begin(SLAVE_ADDRESS);
   // define callbacks for i2c communication
   Wire.onReceive(receiveData);
-  //  Wire.onRequest(sendData);
+  Wire.onRequest(sendData);
 }
 
 void loop() {
   delay(100);
+  
 } // end loop
 
 // callback for received data
@@ -36,11 +37,15 @@ void receiveData(int byteCount) {
   }
   number[i] = '\0';
   Serial.print(number);
+
+ 
 }  // end while
+
 
 // callback for sending data
 void sendData() {
-  Wire.write(number);
+  Wire.write("l");
 }
 
+//End of the program
 //End of the program
