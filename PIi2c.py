@@ -15,19 +15,19 @@ bus = smbus.SMBus(1)
 #Slave Address 1
 address = 0x04
 
-#Slave Address 2
-address_2 = 0x05
+
 
 def writeNumber(value):
     bus.write_byte(address, value)
-    bus.write_byte(address_2, value)
+
     # bus.write_byte_data(address, 0, value)
     return -1
 
 def readNumber():
     # number = bus.read_byte(address)
-    number = bus.read_byte_data(address, 1)
-    return number
+    number = bus.read_i2c_block_data(address,0,16)
+    print(number)
+    return 1
     
 while True:
 	#Receives the data from the User
@@ -37,7 +37,7 @@ while True:
     	#Sends to the Slaves 
         writeNumber(int(ord(i)))
         time.sleep(.1)
-
+        readNumber()
     writeNumber(int(0x0A))
 
 #End of the Script
