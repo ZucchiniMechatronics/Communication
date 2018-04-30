@@ -23,29 +23,42 @@ bus = smbus.SMBus(1)
 address = 0x04
 
 
-
 def writeNumber(value):
     bus.write_byte(address, value)
 
     # bus.write_byte_data(address, 0, value)
     return -1
 
-def readNumber():
+def readarduino():
+	
     # number = bus.read_byte(address)
     number = bus.read_i2c_block_data(address,0,16)
+    print("reading information from arduino")
     print(number)
-    return 1
+    time.sleep(.01)
+    return number
+ 
+def listen():
+	DEC=0
+	while (DEC==0):
+		dec=readarduino()
+		print (dec[0])
+		if dec[0]==49:
+			DEC=dec
+			print 'works'
+		else: 
+			print 'not yet'
+		
 
-def speakpi(data):  
+def speakpi(data):
 
-	while True:
 		#Receives the data from the User
 		#data = raw_input("Enter the data to be sent : ")
-		data_list = list(data)
-		for i in data_list:
-			#Sends to the Slaves 
-			writeNumber(int(ord(i)))
-			time.sleep(.1)
-			readNumber()
+	data_list = list(data)
+	for i in data_list:
+		#Sends to the Slaves 
+		writeNumber(int(ord(i)))
+		time.sleep(.1)
 		writeNumber(int(0x0A))
-	return True
+
+	return 1
